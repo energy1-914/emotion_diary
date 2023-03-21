@@ -12,8 +12,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const [content, setContent] = useState();
   const [emotion, setEmotion] = useState(3);
   const [date, setDate] = useState(getStringDate(new Date()));
-
-  const { onCreate, onEdit } = useContext(DiaryDispatchContext);
+  const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
   const navigate = useNavigate();
   const handelClickEmote = emotion => {
     setEmotion(emotion);
@@ -29,18 +28,20 @@ const DiaryEditor = ({ isEdit, originData }) => {
         isEdit ? "일기를 수정하시겠습니까?" : "새로운 일기를 저장하시겠습니까?"
       )
     ) {
-      // if (isEdit) {
-      //   onEdit(originData.id, content, emotion, date);
-      // } else {
-      //   onCreate(date, content, emotion);
-      // }
-      if(!isEdit) {
+      if (!isEdit) {
         onCreate(date, content, emotion);
       } else {
         onEdit(originData.id, date, content, emotion);
       }
     }
     navigate("/", { replace: true });
+  };
+
+  const handleRemove = () => {
+    if (window.confirm("일기를 삭제하시겠습니까?")) {
+      onRemove(originData.id);
+      navigate("/", { replace: true });
+    }
   };
 
   useEffect(() => {
@@ -58,6 +59,15 @@ const DiaryEditor = ({ isEdit, originData }) => {
         leftChild={
           <MyButton text={"< 뒤로가기"} onClick={() => navigate(-1)} />
         }
+        rightChild={
+          isEdit && (
+            <MyButton
+              text={"삭제하기"}
+              type={"negative"}
+              onClick={handleRemove}
+            />
+          )
+        }
       />
       <div>
         <section>
@@ -66,7 +76,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
             <input
               className="input_date"
               type="date"
-              value={date}
+              value={date.slice(0,10)}
               onChange={e => setDate(e.target.value)}
             />
           </div>
