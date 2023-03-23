@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MyHeader from "./MyHeader";
 import MyButton from "./MyButton";
@@ -14,9 +14,9 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const [date, setDate] = useState(getStringDate(new Date()));
   const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
   const navigate = useNavigate();
-  const handelClickEmote = emotion => {
+  const handelClickEmote = useCallback(emotion => {
     setEmotion(emotion);
-  };
+  }, []);
   const handleSubmit = () => {
     if (content.length < 1) {
       contentRef.current.focus();
@@ -76,7 +76,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
             <input
               className="input_date"
               type="date"
-              value={date.slice(0,10)}
+              value={date.slice(0, 10)}
               onChange={e => setDate(e.target.value)}
             />
           </div>
