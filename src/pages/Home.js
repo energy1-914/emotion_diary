@@ -10,6 +10,11 @@ const Home = () => {
   const [curDate, setCurDate] = useState(new Date());
   const headText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월`;
 
+  useEffect(()=>{
+    const titleElement = document.getElementsByTagName('title')[0];
+    titleElement.innerHTML = `emotion diary`;
+  },[])
+
   useEffect(() => {
     if (diaryList.length > 0) {
       const firstDay = new Date(

@@ -11,6 +11,12 @@ const Diary = () => {
   const { id } = useParams();
   const diaryList = useContext(DiaryStateContext);
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    const titleElement = document.getElementsByTagName('title')[0];
+    titleElement.innerHTML = `emotion diary - ${id}`;
+  },[])
+
   useEffect(() => {
     if (diaryList.length >= 1) {
       const targetDiary = diaryList.find(
@@ -32,7 +38,6 @@ const Diary = () => {
       it => it.emotion_id === data.emotion
     );
 
-    console.log(curEmotionData);
     return (
       <div className="DiaryPage">
         <MyHeader
