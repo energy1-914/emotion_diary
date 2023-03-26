@@ -32,4 +32,4 @@ const DiaryItem = ({ id, emotion, content, date }) => {
     </div>
   );
 };
-export default React.memo(DiaryItem); // 왜 렌더링 계속 되지?ㅡㅡㅡㅡㅡ
+export default React.memo(DiaryItem);
